@@ -1,6 +1,5 @@
-// root index is intentionally blank; the stack layout in _layout.tsx
-// automatically shows the tabs layout and the index screen of that group.
+import { Redirect } from 'expo-router';
 
 export default function Index() {
-  return null;
+  return <Redirect href="/(auth)/login" />;
 }

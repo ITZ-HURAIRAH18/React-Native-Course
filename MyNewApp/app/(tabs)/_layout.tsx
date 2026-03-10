@@ -1,25 +1,56 @@
 import { Tabs } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import React from 'react';
 
 export default function TabsLayout() {
   return (
     <Tabs
-      initialRouteName="index"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName: React.ComponentProps<typeof MaterialIcons>['name'] = 'home';
-
-          if (route.name === 'cart') {
-            iconName = 'shopping-cart';
-          }
-
-          return <MaterialIcons name={iconName} size={size} color={color} />;
+      screenOptions={{
+        tabBarActiveTintColor: '#2E8B57',
+        tabBarInactiveTintColor: '#8E8E93',
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: 1,
+          borderTopColor: '#F2F2F7',
+          paddingBottom: 5,
         },
-      })}
+        headerStyle: {
+          backgroundColor: '#2E8B57',
+        },
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: {
+          fontWeight: '700',
+        },
+      }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="cart" options={{ title: 'Cart' }} />
+      <Tabs.Screen 
+        name="index" 
+        options={{ 
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="home" size={size} color={color} />
+        }} 
+      />
+      <Tabs.Screen 
+        name="triage" 
+        options={{ 
+          title: 'AI Triage',
+          tabBarIcon: ({ color, size }) => <FontAwesome5 name="stethoscope" size={size - 4} color={color} />
+        }} 
+      />
+       <Tabs.Screen 
+        name="chat" 
+        options={{ 
+          title: 'Asistant',
+          tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles" size={size} color={color} />
+        }} 
+      />
+      <Tabs.Screen 
+        name="appointments" 
+        options={{ 
+          title: 'History',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="event" size={size} color={color} />
+        }} 
+      />
     </Tabs>
   );
 }

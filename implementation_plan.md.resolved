@@ -1,0 +1,67 @@
+# 🏥 Smart Medical Triage App Implementation Plan
+
+This document outlines the step-by-step plan to build the **Smart Medical Triage App**, featuring an AI-driven doctor routing system, appointment booking, and nearby hospital finder.
+
+## 🏗️ Project Architecture
+
+```mermaid
+graph TD
+    A[Mobile App - Expo/React Native] -->|REST API| B[Django Backend]
+    B -->|Query/Save| C[(PostgreSQL Database)]
+    B -->|AI Analysis| D[Gemini API]
+    A -->|Location| E[Google Maps API]
+    A -->|Notifications| F[Expo Notifications / Firebase]
+```
+
+## 🛠️ Technology Stack
+
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | React Native (Expo SDK 50+), Axios, React Navigation |
+| **Backend** | Django 5.0, Django REST Framework (DRF) |
+| **Authentication** | JWT (SimpleJWT) |
+| **AI Engine** | Google Gemini Generative AI |
+| **Database** | PostgreSQL |
+| **Icons & UI** | Lucide React Native, Custom CSS/Theming |
+
+## 📅 Roadmap & Milestones
+
+### Phase 1: Environment Setup (Current)
+- [ ] Initialize `SmartMedicalTriage` directory.
+- [ ] Create Django project in `backend/`.
+- [ ] Create Expo app in `frontend/`.
+- [ ] Setup `.env` for Gemini API keys and Database credentials.
+
+### Phase 2: Backend Core (Django)
+- [ ] Define **Custom User** and **Profile** models.
+- [ ] Setup **ChatHistory** and **Appointment** models.
+- [ ] Implement JWT Authentication endpoints.
+- [ ] Create AI Service for doctor classification using Gemini.
+
+### Phase 3: Frontend Foundation (Expo)
+- [ ] Setup Navigation (Stack & Tabs).
+- [ ] Build Authentication screens (Login/Signup).
+- [ ] Implement Global State (Context API/Zustand) for Auth.
+
+### Phase 4: Core Features
+- [ ] **Symptom Input**: Text field + AI analysis result screen.
+- [ ] **Doctor Router**: Display AI recommendation with reasoning.
+- [ ] **Hospital Finder**: Map integration using `expo-location` and Google Places API.
+- [ ] **Appointment Booking**: Form and history view.
+
+### Phase 5: Polish & Advanced Features
+- [ ] Voice input for symptoms.
+- [ ] Emergency alert system.
+- [ ] Push notifications for appointment reminders.
+
+## 🗄️ Database Schema (ERD Preview)
+
+- **User**: Standard Auth fields.
+- **Profile**: `age`, `gender`, `medical_history`.
+- **SymptomAnalysis**: `user`, `symptoms_text`, `predicted_doctor`, `ai_reasoning`.
+- **Appointment**: `user`, `hospital_name`, `doctor_type`, `date`, `time`, `status`.
+- **ChatHistory**: `user`, `message`, `is_ai`, `timestamp`.
+
+---
+> [!TIP]
+> Use Gemini 1.5 Flash for faster symptom analysis and Gemini 1.5 Pro for complex medical reasoning.
