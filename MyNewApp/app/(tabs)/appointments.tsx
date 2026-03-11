@@ -9,10 +9,21 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { getAppointments } from '../../api';
 
+interface Appointment {
+  id: number;
+  hospital_name: string;
+  doctor_type: string;
+  appointment_date: string;
+  appointment_time: string;
+  status: string;
+}
+
 export default function AppointmentsScreen() {
-  const [appointments, setAppointments] = useState([]);
+  const router = useRouter();
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -37,7 +48,7 @@ export default function AppointmentsScreen() {
     fetchAppointments();
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'confirmed': return '#2E8B57';
       case 'pending': return '#DAA520';
@@ -46,7 +57,7 @@ export default function AppointmentsScreen() {
     }
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: Appointment }) => (
     <TouchableOpacity style={styles.card} activeOpacity={0.7}>
       <View style={styles.cardContent}>
         <View style={styles.iconContainer}>
@@ -95,7 +106,10 @@ export default function AppointmentsScreen() {
         />
       )}
 
-      <TouchableOpacity style={styles.fab}>
+      <TouchableOpacity 
+        style={styles.fab}
+        onPress={() => router.push('/(tabs)/triage')}
+      >
          <MaterialIcons name="add" size={32} color="#FFF" />
       </TouchableOpacity>
     </View>

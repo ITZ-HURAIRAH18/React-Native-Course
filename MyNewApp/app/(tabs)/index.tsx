@@ -70,7 +70,13 @@ export default function HomeScreen() {
                <Text style={styles.gridLabel}>AI Chatbot</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.gridItem}>
+            <TouchableOpacity 
+              style={styles.gridItem}
+              onPress={() => router.push({
+                pathname: "/(tabs)/booking",
+                params: { doctorType: 'General Physician', hospitalName: 'Nearby Medical Center' }
+              })}
+            >
                <View style={[styles.gridIcon, { backgroundColor: '#FFF3E0' }]}>
                   <MaterialIcons name="local-hospital" size={24} color="#FF9800" />
                </View>

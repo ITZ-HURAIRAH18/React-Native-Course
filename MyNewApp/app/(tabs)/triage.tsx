@@ -10,12 +10,14 @@ import {
   Alert
 } from 'react-native';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { analyzeSymptoms } from '../../api';
 
 export default function TriageScreen() {
+  const router = useRouter();
   const [symptoms, setSymptoms] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<{ doctor: string; reason: string } | null>(null);
 
   const handleAnalyze = async () => {
     if (!symptoms.trim()) {
@@ -30,11 +32,18 @@ export default function TriageScreen() {
       setResult(response.data);
     } catch (error) {
        console.error(error);
-       // Check if it's an auth error or network error
        Alert.alert('Analysis Failed', 'Make sure you are logged in and the backend is running.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleBook = () => {
+    if (!result) return;
+    router.push({
+      pathname: "/(tabs)/booking",
+      params: { doctorType: result.doctor, hospitalName: 'City General Hospital' }
+    });
   };
 
   return (
@@ -84,10 +93,16 @@ export default function TriageScreen() {
           </View>
 
           <View style={styles.actionRow}>
-             <TouchableOpacity style={styles.actionButtonSecondary}>
+             <TouchableOpacity 
+                style={styles.actionButtonSecondary}
+                onPress={() => Alert.alert('Nearby Doctors', `Searching for ${result.doctor}s near you...`)}
+             >
                 <Text style={styles.actionButtonTextSecondary}>Find Doctors</Text>
              </TouchableOpacity>
-             <TouchableOpacity style={styles.actionButtonPrimary}>
+             <TouchableOpacity 
+                style={styles.actionButtonPrimary}
+                onPress={handleBook}
+             >
                 <Text style={styles.actionButtonTextPrimary}>Book Appointment</Text>
              </TouchableOpacity>
           </View>
@@ -120,10 +135,7 @@ const styles = StyleSheet.create({
     margin: 20,
     padding: 20,
     borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
     elevation: 4,
   },
   label: { fontSize: 18, fontWeight: '700', color: '#333', marginBottom: 15 },
